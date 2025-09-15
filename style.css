@@ -139,16 +139,6 @@ p.lead {
 /* ---------------------------
    FOOTER
 ---------------------------- */
-.footer {
-  padding: 40px 0;
-  background-color: #f8f9fa;
-  color: #333;
-}
-
-.footer h4 {
-  margin-bottom: 20px;
-}
-
 .footer .btn-social {
   border-radius: 50%;
   font-size: 20px;
@@ -157,13 +147,16 @@ p.lead {
   line-height: 50px;
   display: inline-block;
   text-align: center;
+  background-color: #2c3e50; /* Dark background */
+  color: #fff; /* White icon */
   transition: all 0.3s;
 }
 
 .footer .btn-social:hover {
-  background-color: #18bc9c;
+  background-color: #18bc9c; /* Green hover */
   color: #fff;
 }
+
 
 /* ---------------------------
    COPYRIGHT
