@@ -1,28 +1,59 @@
-// Mini Game Logic
-const btn = document.getElementById("target-btn");
-const scoreDisplay = document.getElementById("score");
-const gameArea = document.getElementById("game-area");
+// Game variables
 let score = 0;
+let timeLeft = 30; // game time in seconds
+let gameActive = true;
 
-// Move button randomly inside game area
+const scoreDisplay = document.getElementById("score");
+const targetBtn = document.getElementById("target-btn");
+const gameArea = document.getElementById("game-area");
+
+// Create and display timer
+const timerDisplay = document.createElement("h4");
+timerDisplay.textContent = "Time Left: " + timeLeft + "s";
+document.querySelector("#game").appendChild(timerDisplay);
+
+// Function to move button randomly inside the game area
 function moveButton() {
-  const areaWidth = gameArea.clientWidth - btn.offsetWidth;
-  const areaHeight = gameArea.clientHeight - btn.offsetHeight;
+  if (!gameActive) return;
+  const areaWidth = gameArea.clientWidth - targetBtn.clientWidth;
+  const areaHeight = gameArea.clientHeight - targetBtn.clientHeight;
+
   const randomX = Math.floor(Math.random() * areaWidth);
   const randomY = Math.floor(Math.random() * areaHeight);
 
-  btn.style.left = randomX + "px";
-  btn.style.top = randomY + "px";
+  targetBtn.style.left = randomX + "px";
+  targetBtn.style.top = randomY + "px";
 }
 
-// When button is clicked
-btn.addEventListener("click", () => {
+// When button is clicked → increase score + move button
+targetBtn.addEventListener("click", () => {
+  if (!gameActive) return;
   score++;
   scoreDisplay.textContent = score;
   moveButton();
 });
 
-// Place button in random spot when game loads
-window.onload = () => {
-  moveButton();
-};
+// Countdown timer
+const countdown = setInterval(() => {
+  if (timeLeft > 0) {
+    timeLeft--;
+    timerDisplay.textContent = "Time Left: " + timeLeft + "s";
+  } else {
+    endGame();
+  }
+}, 1000);
+
+// End game function
+function endGame() {
+  gameActive = false;
+  clearInterval(countdown);
+  targetBtn.style.display = "none"; // hide the button
+  timerDisplay.textContent = "⏳ Time’s Up!";
+  
+  const resultMsg = document.createElement("h3");
+  resultMsg.textContent = "🎉 Game Over! Your final score: " + score;
+  document.querySelector("#game").appendChild(resultMsg);
+}
+
+// First move when game loads
+window.onload = moveButton;
